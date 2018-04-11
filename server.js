@@ -13,6 +13,7 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+mongoose.Promise = require('bluebird');
 var Produto = require('./app/models/produto')
 
 mongoose.connect("mongodb://admin:sempre123@ds117719.mlab.com:17719/teste1", {
@@ -62,6 +63,16 @@ router.route('/produtos')
     })
 });
 
+
+router.route('/produtos/:produto_id')
+.get(function (req, res) {
+    Produto.findById(req.params.produto_id, function(error, produto) {
+        if(error)
+            res.send("Id do produto não encontrado");
+
+        res.json(produto);
+    })
+})
 
 
 app.use('/api', router);
