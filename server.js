@@ -90,9 +90,19 @@ router.route('/produtos/:produto_id')
         })
     })
 })
+.delete(function(req, res) {
+    Produto.remove({
+        _id: req.params.produto_id
+    }, function(error) {
+        if(error)
+            res.send("Nao foi localizado o id. Erro na exclusão")
+
+        res.json({message: "Produto excluído com sucesso"})
+    })
+})
 
 
 app.use('/api', router);
 
 app.listen(port)
-console.log("Iniciando a app na porta " + port);
+console.log("Iniciando a app na porta " + port)
