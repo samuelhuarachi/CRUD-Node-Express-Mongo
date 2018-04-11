@@ -73,6 +73,23 @@ router.route('/produtos/:produto_id')
         res.json(produto);
     })
 })
+.put(function(req, res) {
+    Produto.findById(req.params.produto_id, function(error, produto) {
+        if(error)
+            res.send("Erro no processamento")
+
+        produto.nome = req.body.nome
+        produto.preco = req.body.preco
+        produto.descricao = req.body.descricao
+        
+        produto.save(function(error) {
+            if(error)
+                res.send("Erro na hora de atualizar o produto")
+            
+            res.json({ message: "Produto atualizado com sucesso" })
+        })
+    })
+})
 
 
 app.use('/api', router);
